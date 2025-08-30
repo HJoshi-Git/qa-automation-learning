@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('navigates through the Vitalchat website menu and verifies the Our Story section content', async ({ page }) => {
   await page.goto('https://vitalchat.com/');
   console.log('Navigated to https://vitalchat.com/');
 
@@ -35,7 +35,7 @@ test('test', async ({ page }) => {
   console.log('Verified Our Story heading is visible');
 
   const ourStoryText = await page.locator('#post-25').textContent();
-  console.log('Our Story section text content:', ourStoryText);
+  console.log('Fetched Our Story section text content');
 
   await expect(page.locator('#post-25')).toContainText('Vitalchat was born from a deeply personal place. Like many, we’ve stood at the bedsides of loved ones in the hospital — juggling worry, long drives, and the aching feeling of not always being there. As caregivers ourselves, we saw the very real barriers that exist between patients, families, and care teams. And we knew there had to be a better way to stay connected.');
   console.log('Verified Our Story text content is present');
