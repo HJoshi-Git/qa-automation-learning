@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        PATH = "${env.PATH}:/usr/local/bin"
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -14,18 +10,21 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'echo $PATH'  // Test: This should now print the updated PATH
-                sh 'which node || echo "Node not found in PATH"'
-                sh 'which npm || echo "NPM not found in PATH"'
-                // Add your actual install commands
-                sh 'npm install'
+                withEnv(["PATH+EXTRA=/usr/local/bin"]) {
+                    sh 'echo "Current PATH: $PATH"'
+                    sh 'which node || echo "Node not found in PATH"'
+                    sh 'which npm || echo "NPM not found in PATH"'
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Run Playwright Tests') {
             steps {
-                sh 'npx playwright install --with-deps'
-                sh 'npx playwright test'
+                withEnv(["PATH+EXTRA=/usr/local/bin"]) {
+                    sh 'npx playwright install --with-deps'
+                    sh 'npx playwright test'
+                }
             }
         }
     }
