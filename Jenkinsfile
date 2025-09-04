@@ -1,28 +1,24 @@
 pipeline {
     agent any
-    
+
     environment {
-        // Correct way to append to PATH (uses string interpolation)
-        PATH = "/usr/local/bin:${env.PATH}"
+        // Correct way to prepend to PATH in Jenkins
+        PATH+LOCAL = "/usr/local/bin"
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/HJoshi-Git/qa-automation-learning.git'
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
                 sh 'echo $PATH'  // Test: This should now print the updated PATH
-                // Add your actual install commands, e.g., sh 'npm install' or 'pip install -r requirements.txt'
+                // Add your actual install commands, e.g., sh 'npm install'
             }
         }
-        
-        // Add more stages as needed
-    }
-}
 
         stage('Run Playwright Tests') {
             steps {
