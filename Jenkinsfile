@@ -7,6 +7,7 @@ pipeline {
 
     environment {
         NODE_ENV = 'test'
+        PATH = "/usr/local/bin:${env.PATH}"
     }
 
     stages {
