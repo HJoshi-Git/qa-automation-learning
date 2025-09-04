@@ -5,7 +5,7 @@ test('navigates through the Vitalchat website menu and verifies the Our Story se
   console.log('Navigated to https://vitalchat.com/');
 
   await page.locator('#menu-primary-menu').getByRole('link', { name: 'Platform' }).click();
-  console.log('Clicked on Platform link');
+  console.log('Clicked on Platform link'); 
 
   await page.locator('#menu-primary-menu').getByRole('link', { name: 'Virtual Nursing' }).click();
   console.log('Clicked on Virtual Nursing link');
