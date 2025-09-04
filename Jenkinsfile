@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH+EXTRA = "/usr/local/bin"
+        PATH = "${env.PATH}:/usr/local/bin"
     }
 
     stages {
@@ -15,7 +15,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'echo $PATH'  // Test: This should now print the updated PATH
-                // Add your actual install commands, e.g., sh 'npm install'
+                sh 'which node || echo "Node not found in PATH"'
+                sh 'which npm || echo "NPM not found in PATH"'
+                // Add your actual install commands
+                sh 'npm install'
             }
         }
 
@@ -29,8 +32,13 @@ pipeline {
 
     post {
         always {
-            junit '**/test-results/**/*.xml'
-            archiveArtifacts artifacts: '**/test-results/**/*.xml', allowEmptyArchive: true
+            // Only archive if test results exist
+            script {
+                if (fileExists('**/test-results/**/*.xml')) {
+                    junit '**/test-results/**/*.xml'
+                    archiveArtifacts artifacts: '**/test-results/**/*.xml', allowEmptyArchive: true
+                }
+            }
         }
     }
 }
