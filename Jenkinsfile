@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Correct way to prepend to PATH in Jenkins
-        PATH+LOCAL = "/usr/local/bin"
+        PATH = "/usr/local/bin:${env.PATH}"
     }
 
     stages {
