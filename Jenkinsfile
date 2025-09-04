@@ -1,26 +1,26 @@
 pipeline {
     agent any
-
-    triggers {
-        githubPush()
-    }
-
+    
     environment {
-        NODE_ENV = 'test'
+        // Safely append to PATH (this preserves existing paths)
         PATH = "/usr/local/bin:${env.PATH}"
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/HJoshi-Git/qa-automation-learning.git', branch: 'main'
+                // Your git checkout step (already working)
+                git branch: 'main', url: 'https://github.com/HJoshi-Git/qa-automation-learning.git'
             }
         }
+        
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                // Now sh should work; add your actual commands here, e.g.:
+                sh 'npm install'  // Or whatever dependency installation you need
             }
         }
+        
         stage('Run Playwright Tests') {
             steps {
                 sh 'npx playwright install --with-deps'
